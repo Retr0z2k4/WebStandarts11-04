@@ -1,35 +1,35 @@
+import { carros } from "./carros.js"
+import { formatarMoeda } from "./formatarMoeda.js";
 
-document.querySelector('#criarConta').addEventListener('submit',function(e){
-    e.preventDefault();
-    
-    const tbody = document.querySelector('#dadosConta');
-    const campos = [
-        document.querySelector('#usuario'),
-        document.querySelector('#password'),
-        document.querySelector('#email'),
-        document.querySelector('#dataCadastro'),
-        document.querySelector('#tipoConta'),
-    ];
+//função que monta cards, utilizando o array "cards"
+function montarCards(lista){
+    //Recuperar o objeto HTML que recebrá os cards
+    const gridCards = document.querySelector('#gridCards');
 
-    const tr = document.createElement('tr');
+    //percorrer o array para a montagem dos cards
+    lista.forEach(carro =>{
+        gridCards.innerHTML += `
 
-    campos.forEach(campo => {
-        const td = document.createElement('td')
-
-        if(campo.type === 'date'){
-            const dataFormatada = campo.value
-            const data = new Date(dataFormatada + 'T12:00');
-            td.textContent = data.toLocaleDateString('pt-BR')
-        }
-
-        td.textContent = campo.value;
-        tr.appendChild(td);
+<div class="col-md-6 col-lg-4 my-3">
+     <div class="card">
+        <img src="${carro.foto}" class="card-img-top" alt="${carro.modelo} - ${carro.marca}">
+        <h5 class="p-3">${carro.modelo} - ${carro.marca}</h5>
+         <div class="d-flex justify-content-between px-3">
+             <p>${carro.cor}</p>
+             <p>${carro.ano}</p>
+        </div>
+            <div class="d-flex justify-content-between px-3">
+                <p>${carro.estilo}</p>
+                <p>${carro.transmissao}</p>
+            </div>
+                <h3 class="text-center text-danger">${carro.preco}</h3>
+        </div>
+</div>
+        `
     });
+    document.querySelector('#totalCarros').textContent = lista.length;
+}
 
-    tbody.appendChild(tr);
+//chamando a função 
+montarCards(carros);
 
-    this.reset();
-
-
-    
-});
